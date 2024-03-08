@@ -1,0 +1,28 @@
+version: "3"
+services:
+  nodejs-app:
+    build: .
+    container_name: nodejs-app
+    env_file:
+      - .env
+    ports:
+      - "80:${SERVER_PORT}"
+    depends_on:
+      - redis-cache
+    networks:
+      - app-network
+    command: npm run dev
+    volumes:
+      - ./:/usr/src/app
+  redis-cache:
+    container_name: redis
+    image: redis:alpine3.16
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    command: /bin/sh -c "redis-server --requirepass $$REDIS_PASSWORD"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

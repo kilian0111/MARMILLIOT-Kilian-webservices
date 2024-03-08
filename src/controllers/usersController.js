@@ -64,7 +64,7 @@ const exposeController = {
         const {id} = req.params
         try {
             const toDelete = await usersService.deleteUser(id)
-            return res.json(toDelete)
+            return res.status(204)
         } catch (error) {
             return res.sendStatus(400)
         }

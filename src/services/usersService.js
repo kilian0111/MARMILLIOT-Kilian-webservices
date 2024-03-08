@@ -15,7 +15,7 @@ const exposeServices = {
 
     findOneUserById: async ({id}) => {
         try {
-            return await User.findOne({_id: id})
+            return await User.findOne({_id: id}, {password: 0, refreshToken: 0}).populate('skills')
         } catch (error) {
             throw error
         }
@@ -49,7 +49,7 @@ const exposeServices = {
         projection.refreshToken = 0
 
         try {
-            return await User.find(filter, projection, options)
+            return await User.find(filter, projection, options).populate('skills')
         } catch (error) {
             throw error
         }

@@ -7,7 +7,7 @@ const initializeRedisClient = async () => {
         legacyMode: true,
         socket: {
             port: 6379,
-            host: 'redis-cache'
+            host: 'redis-cache',
         }
     })
     try {
@@ -38,9 +38,18 @@ const set = async (redisKey, value) => {
     })
 }
 
+const getAllKeyStartingWith = async (prefix) => {
+    return new Promise(resolve => {
+        redisClient.keys(prefix + '*', (err, res) => {
+            if (err) console.error(err);
+            resolve(res)
+        })
+    })
+}
+
 const setex = async (redisKey, value, expiration) => {
     return new Promise(resolve => {
-        redisClient.setex(redisKey, expiration, value, (err, res) => {
+        redisClient.setEx(redisKey, expiration, value, (err, res) => {
             if (err) console.error(err);
             resolve(res)
         })
@@ -56,6 +65,13 @@ const del = async (redisKey) => {
     })
 }
 
+const delAllKeyStartingWith = async (prefix) => {
+    const keys = await getAllKeyStartingWith(prefix)
+    keys.forEach(async key => {
+        await del(key)
+    })
+}
+
 
 export {
     initializeRedisClient,
@@ -63,5 +79,6 @@ export {
     get,
     set,
     setex,
-    del
+    del,
+    delAllKeyStartingWith
 }

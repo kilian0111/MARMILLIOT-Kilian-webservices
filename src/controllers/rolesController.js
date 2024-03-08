@@ -63,7 +63,7 @@ const exposeController = {
             return res.sendStatus(404)
         }
         const deletedRole = await rolesService.deleteRole(id)
-        return res.json(deletedRole)
+        return res.status(204)
     }
 }
 

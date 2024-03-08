@@ -40,8 +40,11 @@ const exposeController = {
     deleteSkill: async (req, res) => {
         try {
             const {id} = req.params
+            if (!id) {
+                return res.sendStatus(400)
+            }
             const deletedSkill = await skillsService.deleteSkill(id)
-            return res.json(deletedSkill)
+            return res.sendStatus(204)
         } catch (error) {
             return res.sendStatus(400)
         }

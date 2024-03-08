@@ -17,9 +17,6 @@ services:
   redis-cache:
     container_name: redis
     image: redis:alpine3.16
-    environment:
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
-    command: /bin/sh -c "redis-server --requirepass $$REDIS_PASSWORD"
     networks:
       - app-network
 

@@ -13,11 +13,9 @@ const exposeMiddleware = {
         let isAllowed = false
         thisU.roles.forEach(({authorizations}) => {
             // for each on each authorizations
-            console.log('authorizations', ressourcePath, method)
             const findRessource = authorizations.find(({ressource}) => ressource === ressourcePath)
 
             isAllowed = findRessource?.permissions.includes(method)
-            console.log(`controle de ${ressourcePath} en ${method}`, findRessource)
         })
 
         if (isAllowed) {
